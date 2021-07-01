@@ -1,12 +1,14 @@
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function Login() {
+	const history = useHistory()
 	const [formData, setFormData] = useState({
 		email: '',
 		password: '',
 	})
+	const [errorMsg, setErrorMsg] = useState(null)
 
 	const handleChange = (e) =>
 		setFormData((prevState) => ({
@@ -14,11 +16,47 @@ export default function Login() {
 			[e.target.name]: e.target.value,
 		}))
 
+	const handleSubmit = async (e) => {
+		e.preventDefault()
+		setErrorMsg(null)
+
+		const res = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(formData),
+		})
+		const data = await res.json()
+
+		if (res.status >= 400) return setErrorMsg(data.error)
+
+		localStorage.setItem('login_token', JSON.stringify(data.token))
+
+		history.push('/dashboard')
+	}
+
+	useEffect(() => {
+		const token = JSON.parse(localStorage.getItem('login_token'))
+
+		if (token)
+			fetch(`${process.env.REACT_APP_API_URL}/login/validate`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+			})
+				.then((res) => res.json())
+				.then((data) => {
+					if (data.user) return history.push('/dashboard')
+				})
+	}, [])
+
 	return (
 		<div className='bg-green-500 w-full min-h-screen flex items-center justify-center'>
 			<div className='p-4 bg-white rounded'>
 				<h3 className='text-2xl font-bold'>Dollar-Driven Login</h3>
-				<form className='w-72 flex flex-col my-4'>
+				{errorMsg ? <p className='mt-4 text-red-600'>{errorMsg}</p> : null}
+				<form onSubmit={handleSubmit} className='w-72 flex flex-col my-4'>
 					<input
 						className='my-2 rounded w-full'
 						type='email'
