@@ -1,5 +1,10 @@
 import Layout from './components/Layout'
+import Login from './pages/Login'
 
 export default function App() {
-	return <Layout></Layout>
+	return (
+		<Layout>
+			<Login />
+		</Layout>
+	)
 }
