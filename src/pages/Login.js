@@ -65,7 +65,7 @@ export default function Login() {
             value={formData.password}
             onChange={handleChange}
           />
-          <Link className="text-blue-600 underline">
+          <Link to="signup" className="text-blue-600 underline">
             Don't have an account?
           </Link>
           <button
