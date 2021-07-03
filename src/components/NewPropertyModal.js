@@ -35,7 +35,7 @@ export default function NewPropertyModal({ getProperties, isOpen, setIsOpen }) {
         onSubmit={handleSubmit}
         className="flex flex-col w-full m-4 max-w-xl bg-white rounded-md p-4"
       >
-        <h3>New Property</h3>
+        <h3 className="text-2xl font-bold">New Property</h3>
         <p>Add a new property just fill out the street address and press add</p>
         <input
           type="text"

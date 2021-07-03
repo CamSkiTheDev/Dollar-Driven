@@ -48,7 +48,7 @@ export default function Property({
         setProperty={setProperty}
       />
       <div className="w-full max-w-5xl bg-white rounded-md my-4 p-4 flex flex-col">
-        <h3>{property?.street_adderss}</h3>
+        <h3 className="text-2xl font-bold">{property?.street_adderss}</h3>
         <img />
         <div className="flex justify-between">
           <span>{property?.street_adderss}</span>

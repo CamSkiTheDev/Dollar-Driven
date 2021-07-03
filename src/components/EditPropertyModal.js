@@ -61,7 +61,7 @@ export default function EditPropertyModal({
         onSubmit={handleSubmit}
         className="flex flex-col w-full m-4 max-w-xl bg-white rounded-md p-4"
       >
-        <h3>Edit Property</h3>
+        <h3 className="text-2xl font-bold">Edit Property</h3>
         <label htmlFor="street_adderss">Street Address</label>
         <input
           type="text"
