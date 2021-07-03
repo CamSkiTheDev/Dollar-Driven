@@ -28,7 +28,7 @@ export default function Dashboard() {
     const token = JSON.parse(localStorage.getItem("login_token"));
 
     if (token) getProperties(token);
-  }, [properties]);
+  }, []);
 
   if (!properties) return null;
 

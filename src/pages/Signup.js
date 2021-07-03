@@ -83,7 +83,7 @@ export default function Signup() {
             type="submit"
             className="flex justify-center py-2 mt-4 w-24 rounded bg-indigo-500 text-white self-end"
           >
-            Login
+            Sign Up
           </button>
         </form>
       </div>
