@@ -4,6 +4,7 @@ export default function useValidateUser() {
   const history = useHistory();
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [token, setToken] = useState(null);
 
   const validateUser = async (token) =>
     await fetch(`${process.env.REACT_APP_API_URL}/login/validate`, {
@@ -18,6 +19,7 @@ export default function useValidateUser() {
         if (data.user) {
           setUser(data.user);
           setIsLoading(false);
+          setToken(token);
           return history.push("/dashboard");
         }
       });
@@ -30,5 +32,5 @@ export default function useValidateUser() {
     }
   }, []);
 
-  return { isLoading, user };
+  return { isLoading, user, token };
 }
