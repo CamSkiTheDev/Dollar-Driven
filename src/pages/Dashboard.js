@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+
 import useValidateUser from "../hooks/useValidateUser";
 import NewPropertyModal from "../components/NewPropertyModal";
 
 export default function Dashboard() {
   const [properties, setProperties] = useState([]);
   const { isLoading } = useValidateUser();
+  const [isOpen, setIsOpen] = useState(false);
+  const history = useHistory();
 
   const getProperties = async (token) => {
     const properties = await fetch(
@@ -24,16 +28,23 @@ export default function Dashboard() {
     const token = JSON.parse(localStorage.getItem("login_token"));
 
     if (token) getProperties(token);
-  }, []);
+  }, [properties]);
+
+  if (!properties) return null;
 
   return (
     <div className="bg-green-500 w-full min-h-screen flex flex-col items-center">
-      <NewPropertyModal />
+      <NewPropertyModal
+        getProperties={getProperties}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      />
       <div className="w-full max-w-5xl min-h-screen relative">
         {properties.map((property) => (
           <div
             key={property.id}
             className="bg-white m-4 p-4 flex drop-shadow rounded-md cursor-pointer"
+            onClick={() => history.push(`/property/${property.id}`)}
           >
             <img />
             <div className="flex flex-col">
@@ -65,7 +76,10 @@ export default function Dashboard() {
             </div>
           </div>
         ))}
-        <button className="absolute bottom-8 right-8 w-12 h-12 bg-green-300 rounded-full text-white drop-shadow">
+        <button
+          onClick={() => setIsOpen((prevState) => !prevState)}
+          className="absolute bottom-8 right-8 w-12 h-12 bg-green-300 rounded-full text-white drop-shadow"
+        >
           +
         </button>
       </div>
